@@ -2,6 +2,7 @@
 
 #[macro_use] extern crate rocket;
 use rocket::Data;
+use std::path::PathBuf;
 
 #[get("/<name>/<age>")]
 fn hello(name: String, age: u8) -> String {
@@ -13,8 +14,8 @@ fn put_store() -> String {
     format!("Done")
 }
 
-#[post("/", data="<input>")]
-fn post_store(input:Data) -> Result<String,rocket::response::Debug<std::io::Error>> {
+#[post("/<path..>", data="<input>")]
+fn post_store(path:PathBuf, input:Data) -> Result<String,rocket::response::Debug<std::io::Error>> {
     input.stream_to_file("test")?;
     Ok(format!("Done. Wrote {{}} bytes to file test"))
     // 	Err(x) => Err(format!("Error: {}", x))
