@@ -1,7 +1,7 @@
 #![feature(proc_macro_hygiene, decl_macro)]
 
 #[macro_use] extern crate rocket;
-
+use rocket::Data;
 
 #[get("/<name>/<age>")]
 fn hello(name: String, age: u8) -> String {
@@ -14,9 +14,11 @@ fn put_store() -> String {
 }
 
 #[post("/", data="<input>")]
-fn post_store(input:String) -> String {
-    println!("post: {}", input);
-    format!("Done")
+fn post_store(input:Data) -> Result<String,rocket::response::Debug<std::io::Error>> {
+    input.stream_to_file("test")?;
+    Ok(format!("Done. Wrote {{}} bytes to file test"))
+    // 	Err(x) => Err(format!("Error: {}", x))
+    // }
 }
 
 fn main() {
