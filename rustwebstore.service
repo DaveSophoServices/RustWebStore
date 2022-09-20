@@ -1,0 +1,10 @@
+[Unit]
+Description=Rust Web Store. Used to store backup logs.
+
+[Service]
+Type=simple
+ExecStart=/home/rust_web_store/start.sh
+User=rust_web_store
+
+[Install]
+WantedBy=multi-user.target

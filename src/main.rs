@@ -39,7 +39,7 @@ fn post_store(path:PathBuf, input:Data) -> Result<String,rocket::response::Debug
     name.push_str(&Local::now().to_rfc3339());
     name.push_str(".log");
     println!("Name: {}", name);
-    input.stream_to_file(name)?;
+    input.stream_to_file(String::from("data/")+&name)?;
     Ok(format!("Done. Wrote {{}} bytes to file test"))
     // 	Err(x) => Err(format!("Error: {}", x))
     // }
